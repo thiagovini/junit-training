@@ -20,7 +20,7 @@ public class PersonApplicationService {
 
 	public String handle(CreatePersonCommand command) {
 
-		var pessoa = Person.builder()
+		var person = Person.builder()
 		                   .id(UUID.randomUUID().toString())
 		                   .name(command.getName())
 		                   .city(command.getCity())
@@ -28,9 +28,9 @@ public class PersonApplicationService {
 		                   .old(command.getOld())
 		                   .build();
 
-		repository.saveAndFlush(pessoa);
+		repository.saveAndFlush(person);
 
-		return pessoa.getId();
+		return person.getId();
 
 	}
 
