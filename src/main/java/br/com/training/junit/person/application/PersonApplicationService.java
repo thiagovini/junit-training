@@ -28,7 +28,7 @@ public class PersonApplicationService {
 		                   .old(command.getOld())
 		                   .build();
 
-		repository.saveAndFlush(person);
+		repository.save(person);
 
 		return person.getId();
 
