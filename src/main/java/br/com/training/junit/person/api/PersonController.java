@@ -37,9 +37,9 @@ public class PersonController {
 
 		var command = CreatePersonCommand.builder()
 		                                 .name(dto.getName())
+		                                 .cpf(dto.getCpf())
 		                                 .city(dto.getCity())
 		                                 .streetName(dto.getStreetName())
-		                                 .old(dto.getOld())
 		                                 .build();
 
 		service.handle(command);

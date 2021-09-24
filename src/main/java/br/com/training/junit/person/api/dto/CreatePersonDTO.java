@@ -10,15 +10,15 @@ import lombok.Data;
 public final class CreatePersonDTO {
 
 	@NotNull
-	private String name;
+	private final String name;
 
 	@NotNull
-	private String city;
+	private final String cpf;
 
 	@NotNull
-	private String streetName;
+	private final String city;
 
 	@NotNull
-	private Integer old;
+	private final String streetName;
 
 }

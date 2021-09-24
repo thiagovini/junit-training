@@ -28,10 +28,11 @@ public class Person implements Serializable {
 
 	private String name;
 
+	private String cpf;
+
 	private String city;
 
 	@Column(name = "street_name")
 	private String streetName;
 
-	private int old;
 }

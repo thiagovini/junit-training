@@ -23,9 +23,9 @@ public class PersonApplicationService {
 
 		var person = Person.builder()
 		                   .name(command.getName())
+		                   .cpf(command.getCpf())
 		                   .city(command.getCity())
 		                   .streetName(command.getStreetName())
-		                   .old(command.getOld())
 		                   .build();
 
 		repository.save(person);

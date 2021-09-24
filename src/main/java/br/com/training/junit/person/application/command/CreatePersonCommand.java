@@ -10,15 +10,15 @@ import lombok.Data;
 public final class CreatePersonCommand {
 
 	@NotNull
-	private String name;
+	private final String name;
 
 	@NotNull
-	private String city;
+	private final String cpf;
+	
+	@NotNull
+	private final String city;
 
 	@NotNull
-	private String streetName;
-
-	@NotNull
-	private Integer old;
+	private final String streetName;
 
 }
