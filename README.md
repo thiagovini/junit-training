@@ -58,8 +58,6 @@ Após adicionar as dependencias, é necessário habilitar o Swagger na sua aplic
 
 ![config-swagger](https://user-images.githubusercontent.com/69025247/134714163-77c24ca8-5ef0-4d23-bc13-23cdae7d2832.jpeg)
 
-Ao executar a applicação vocês consiguirão abrir o Swagger na porta padrão ou na porta configurada para a sua aplicação. No meu caso, vou conseguir acessar na porta 8081 no link http://localhost:8081/swagger-ui.html
-
 Algumas informações sobre a implementação acima:
 
  - @EnableSwagger2 é a anotação que vai ativar o Swagger no seu projeto Spring Boot
@@ -67,6 +65,8 @@ Algumas informações sobre a implementação acima:
  - Dentro do @Bean estamos definindo um Docket,e é ele quem vai permitir configurarmos aspectos dos nossos endpoints apresentados ao Swagger.
 
  - Por ultimo, os métodos chamado no docket, é necessário passar os parâmetros .any, isso fará com que qualquer API esteja disponível. Com isso, através das 		reflections (reflection é um pacote JAVA que nos possibilita chamar métodos e conhecer estrutura em tempo de execução sem precisarmos conhecer as 		classes envolvidas quando estamos escrevento nosso código) a biblioteca ja consegue reconhecer os endpoints definidos na aplicação.
+
+Ao executar a applicação vocês consiguirão abrir o Swagger na porta padrão ou na porta configurada para a sua aplicação. No meu caso, vou conseguir acessar na porta 8081 no link http://localhost:8081/swagger-ui.html
 
 <h3 align="center">
     <a>Como utilizar</a>
