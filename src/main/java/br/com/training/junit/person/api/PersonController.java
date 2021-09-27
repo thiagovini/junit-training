@@ -18,7 +18,9 @@ import br.com.training.junit.person.api.dto.CreatePersonDTO;
 import br.com.training.junit.person.application.PersonApplicationService;
 import br.com.training.junit.person.application.command.CreatePersonCommand;
 import br.com.training.junit.person.application.command.DeletePersonCommand;
+import br.com.training.junit.person.application.command.getPersonByCityAndNameStartWithCommand;
 import br.com.training.junit.person.application.command.getPersonByCityCommand;
+import br.com.training.junit.person.application.command.getPersonByStreetNameCommand;
 import br.com.training.junit.person.model.Person;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -36,7 +38,7 @@ public class PersonController {
 
 	@ApiOperation(value = "Person registration.", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successful person registration."),
-	        @ApiResponse(code = 400, message = "Error person registration, missing or invalid information.") })
+	        @ApiResponse(code = 400, message = "Error person registration.") })
 	@PostMapping
 	public ResponseEntity<Void> criar(@RequestBody CreatePersonDTO dto) {
 
@@ -55,7 +57,7 @@ public class PersonController {
 
 	@ApiOperation(value = "Delete person.", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successful delete person."),
-	        @ApiResponse(code = 400, message = "Error delete person, missing or invalid id.") })
+	        @ApiResponse(code = 400, message = "Error delete person") })
 	@PostMapping(path = "/{id}/delete", consumes = ALL_VALUE)
 	public ResponseEntity<Void> delete(@PathVariable int id) {
 
@@ -63,17 +65,41 @@ public class PersonController {
 
 		return ResponseEntity.ok().build();
 	}
-	
+
 	@ApiOperation(value = "find person by city.", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successful find person."),
-	        @ApiResponse(code = 400, message = "Error find person, missing or invalid city.") })
+	        @ApiResponse(code = 400, message = "Error find person") })
 	@PostMapping(path = "/{city}/filter", consumes = ALL_VALUE)
 	public List<Person> getPersonByCity(@RequestParam String city) {
-		
+
 		var command = getPersonByCityCommand.of(city);
-		
+
 		return service.handle(command);
-		
+
+	}
+
+	@ApiOperation(value = "find person by street name.", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successful find person."),
+	        @ApiResponse(code = 400, message = "Error find person") })
+	@PostMapping(path = "/{streetName}/filter", consumes = ALL_VALUE)
+	public List<Person> getPersonByStreetName(@RequestParam String streetName) {
+
+		var command = getPersonByStreetNameCommand.of(streetName);
+
+		return service.handle(command);
+
+	}
+
+	@ApiOperation(value = "find person by city and name start with.", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successful find person."),
+	        @ApiResponse(code = 400, message = "Error find person") })
+	@PostMapping(path = "/{city}/{nameStartWith}/filter", consumes = ALL_VALUE)
+	public List<Person> getPersonByCityAndNameStartWith(@RequestParam String city, @RequestParam String nameStartWith) {
+
+		var command = getPersonByCityAndNameStartWithCommand.of(city, nameStartWith);
+
+		return service.handle(command);
+
 	}
 
 }

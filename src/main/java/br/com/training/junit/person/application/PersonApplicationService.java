@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import br.com.training.junit.person.application.command.CreatePersonCommand;
 import br.com.training.junit.person.application.command.DeletePersonCommand;
+import br.com.training.junit.person.application.command.getPersonByCityAndNameStartWithCommand;
 import br.com.training.junit.person.application.command.getPersonByCityCommand;
+import br.com.training.junit.person.application.command.getPersonByStreetNameCommand;
 import br.com.training.junit.person.model.Person;
 import br.com.training.junit.person.repository.PersonRepository;
 import lombok.AllArgsConstructor;
@@ -49,6 +51,39 @@ public class PersonApplicationService {
 	public List<Person> handle(getPersonByCityCommand command) {
 
 		var people = repository.findByCityContains(command.getCity().toUpperCase());
+
+		return people.stream()
+		             .map(person -> Person.builder()
+		                                  .id(person.getId())
+		                                  .name(person.getName())
+		                                  .cpf(person.getCpf())
+		                                  .city(person.getCity())
+		                                  .streetName(person.getStreetName())
+		                                  .build())
+		             .collect(Collectors.toList());
+
+	}
+
+	public List<Person> handle(getPersonByStreetNameCommand command) {
+
+		var people = repository.findByStreetNameContains(command.getStreetName().toUpperCase());
+
+		return people.stream()
+		             .map(person -> Person.builder()
+		                                  .id(person.getId())
+		                                  .name(person.getName())
+		                                  .cpf(person.getCpf())
+		                                  .city(person.getCity())
+		                                  .streetName(person.getStreetName())
+		                                  .build())
+		             .collect(Collectors.toList());
+
+	}
+
+	public List<Person> handle(getPersonByCityAndNameStartWithCommand command) {
+
+		var people = repository.findByCityAndNameStartWith(command.getCity().toUpperCase(),
+		                                                   command.getNameStartWith() + "%");
 
 		return people.stream()
 		             .map(person -> Person.builder()
