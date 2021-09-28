@@ -10,9 +10,9 @@ import br.com.training.junit.person.model.Person;
 
 @Repository
 public interface PersonRepository extends JpaRepository<Person, Long> {
-
+	
 	List<Person> findByCityContains(String city);
-
+	
 	List<Person> findByStreetNameContains(String streetName);
 
 	@Query("SELECT p FROM Person p WHERE p.city = ?1 and p.name like ?2")

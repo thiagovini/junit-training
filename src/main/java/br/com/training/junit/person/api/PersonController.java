@@ -49,21 +49,35 @@ public class PersonController {
 		                                 .streetName(dto.getStreetName().toUpperCase())
 		                                 .build();
 
-		service.handle(command);
+		try {
+			
+			service.handle(command);
 
-		return ResponseEntity.ok().build();
+			return ResponseEntity.ok().build();
+			
+		} catch (Exception e) {
+			
+			return ResponseEntity.badRequest().eTag(e.getMessage()).build();
+		}
 
 	}
 
 	@ApiOperation(value = "Delete person.", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE)
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successful delete person."),
-	        @ApiResponse(code = 400, message = "Error delete person") })
 	@PostMapping(path = "/{id}/delete", consumes = ALL_VALUE)
 	public ResponseEntity<Void> delete(@PathVariable int id) {
 
-		service.handle(DeletePersonCommand.of(id));
+		try {
 
-		return ResponseEntity.ok().build();
+			service.handle(DeletePersonCommand.of(id));
+
+			return ResponseEntity.ok().build();
+
+		} catch (Exception e) {
+
+			return ResponseEntity.notFound().eTag(e.getMessage()).build();
+
+		}
+
 	}
 
 	@ApiOperation(value = "find person by city.", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE)

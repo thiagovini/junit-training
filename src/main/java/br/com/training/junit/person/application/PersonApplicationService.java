@@ -25,7 +25,7 @@ public class PersonApplicationService {
 	@Autowired
 	private PersonRepository repository;
 
-	public long handle(CreatePersonCommand command) {
+	public long handle(CreatePersonCommand command) throws Exception {
 
 		var person = Person.builder()
 		                   .name(command.getName())
@@ -33,18 +33,27 @@ public class PersonApplicationService {
 		                   .city(command.getCity())
 		                   .streetName(command.getStreetName())
 		                   .build();
-
+		
 		repository.save(person);
 
 		return person.getId();
 
 	}
 
-	public void handle(DeletePersonCommand command) {
+	public void handle(DeletePersonCommand command) throws Exception {
 
 		var person = repository.findById(command.getId());
-
-		repository.delete(person.get());
+		
+		if (person.isPresent()) {
+			
+			repository.delete(person.get());
+		
+		} else {
+			
+			throw new Exception("Person not found");
+			
+		}
+		
 
 	}
 
