@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 
@@ -24,8 +22,8 @@ public class Person implements Serializable {
 	private static final long serialVersionUID = -8310024765867170219L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	@NotBlank(message = "Person.id.notBlank")
+	private String id;
 
 	@NotBlank(message = "Person.name.notBlank")
 	private String name;
@@ -40,7 +38,7 @@ public class Person implements Serializable {
 	@Column(name = "street_name")
 	private String streetName;
 
-	public Person updatePerson(String city, String streetName) throws Exception {
+	public Person updatePerson(String city, String streetName) {
 		
 		if (city != null)
 			this.city = city.toUpperCase();

@@ -64,7 +64,7 @@ public class PersonController {
 
 	@ApiOperation(value = "Delete person.", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@PostMapping(path = "/{id}/delete", consumes = ALL_VALUE)
-	public ResponseEntity<Void> delete(@PathVariable int id) {
+	public ResponseEntity<Void> delete(@PathVariable String id) {
 
 		try {
 

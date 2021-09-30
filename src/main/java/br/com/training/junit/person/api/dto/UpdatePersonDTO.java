@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public final class UpdatePersonDTO {
 	
-	private final long id;
+	private final String id;
 	
 	private final String city;
 	

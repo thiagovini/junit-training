@@ -1,6 +1,7 @@
 package br.com.training.junit.person.application;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -26,9 +27,10 @@ public class PersonApplicationService {
 	@Autowired
 	private PersonRepository repository;
 
-	public long handle(CreatePersonCommand command) throws Exception {
+	public String handle(CreatePersonCommand command) {
 
 		var person = Person.builder()
+		                   .id(UUID.randomUUID().toString())
 		                   .name(command.getName())
 		                   .cpf(command.getCpf())
 		                   .city(command.getCity())
@@ -109,11 +111,11 @@ public class PersonApplicationService {
 	public void handle(UpdatePersonCommand command) throws Exception {
 
 		var person = repository.findById(command.getId());
-		
+
 		if (!person.isPresent()) {
-			
+
 			throw new Exception("Person not found!");
-			
+
 		} else {
 
 			person.get().updatePerson(command.getCity(), command.getStreetName());

@@ -7,6 +7,6 @@ import lombok.Data;
 @AllArgsConstructor(staticName = "of")
 public final class DeletePersonCommand {
 	
-	private final long id;
+	private final String id;
 
 }

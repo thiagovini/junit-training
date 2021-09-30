@@ -6,6 +6,8 @@ import lombok.Data;
 @Data
 @Builder
 public final class CreatePersonCommand {
+	
+	private final String id;
 
 	private final String name;
 
