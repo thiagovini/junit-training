@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.training.junit.person.api.dto.CreatePersonDTO;
+import br.com.training.junit.person.api.dto.UpdatePersonDTO;
 import br.com.training.junit.person.application.PersonApplicationService;
 import br.com.training.junit.person.application.command.CreatePersonCommand;
 import br.com.training.junit.person.application.command.DeletePersonCommand;
+import br.com.training.junit.person.application.command.UpdatePersonCommand;
 import br.com.training.junit.person.application.command.getPersonByCityAndNameStartWithCommand;
 import br.com.training.junit.person.application.command.getPersonByCityCommand;
 import br.com.training.junit.person.application.command.getPersonByStreetNameCommand;
@@ -37,9 +39,7 @@ public class PersonController {
 	private PersonApplicationService service;
 
 	@ApiOperation(value = "Person registration.", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE)
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successful person registration."),
-	        @ApiResponse(code = 400, message = "Error person registration.") })
-	@PostMapping
+	@PostMapping(path = "/create", consumes = ALL_VALUE)
 	public ResponseEntity<Void> criar(@RequestBody CreatePersonDTO dto) {
 
 		var command = CreatePersonCommand.builder()
@@ -50,13 +50,13 @@ public class PersonController {
 		                                 .build();
 
 		try {
-			
+
 			service.handle(command);
 
 			return ResponseEntity.ok().build();
-			
+
 		} catch (Exception e) {
-			
+
 			return ResponseEntity.badRequest().eTag(e.getMessage()).build();
 		}
 
@@ -93,8 +93,6 @@ public class PersonController {
 	}
 
 	@ApiOperation(value = "find person by street name.", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE)
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successful find person."),
-	        @ApiResponse(code = 400, message = "Error find person") })
 	@PostMapping(path = "/{streetName}/filter", consumes = ALL_VALUE)
 	public List<Person> getPersonByStreetName(@RequestParam String streetName) {
 
@@ -105,8 +103,6 @@ public class PersonController {
 	}
 
 	@ApiOperation(value = "find person by city and name start with.", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE)
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successful find person."),
-	        @ApiResponse(code = 400, message = "Error find person") })
 	@PostMapping(path = "/{city}/{nameStartWith}/filter", consumes = ALL_VALUE)
 	public List<Person> getPersonByCityAndNameStartWith(@RequestParam String city, @RequestParam String nameStartWith) {
 
@@ -114,6 +110,29 @@ public class PersonController {
 
 		return service.handle(command);
 
+	}
+
+	@ApiOperation(value = "Update person.", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(path = "/update", consumes = ALL_VALUE)
+	public ResponseEntity<Void> update(@RequestBody UpdatePersonDTO dto) {
+
+		var command = UpdatePersonCommand.builder()
+		                                 .id(dto.getId())
+		                                 .city(dto.getCity())
+		                                 .streetName(dto.getStreetName())
+		                                 .build();
+
+		try {
+			
+			service.handle(command);
+			
+			return ResponseEntity.ok().build();
+		
+		} catch (Exception e) {
+			
+			return ResponseEntity.notFound().eTag(e.getMessage()).build();
+		
+		}
 	}
 
 }

@@ -40,4 +40,16 @@ public class Person implements Serializable {
 	@Column(name = "street_name")
 	private String streetName;
 
+	public Person updatePerson(String city, String streetName) throws Exception {
+		
+		if (city != null)
+			this.city = city.toUpperCase();
+
+		if (streetName != null)
+			this.streetName = streetName.toUpperCase();
+
+		return this;
+
+	}
+
 }

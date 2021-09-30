@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.training.junit.person.application.command.CreatePersonCommand;
 import br.com.training.junit.person.application.command.DeletePersonCommand;
+import br.com.training.junit.person.application.command.UpdatePersonCommand;
 import br.com.training.junit.person.application.command.getPersonByCityAndNameStartWithCommand;
 import br.com.training.junit.person.application.command.getPersonByCityCommand;
 import br.com.training.junit.person.application.command.getPersonByStreetNameCommand;
@@ -33,7 +34,7 @@ public class PersonApplicationService {
 		                   .city(command.getCity())
 		                   .streetName(command.getStreetName())
 		                   .build();
-		
+
 		repository.save(person);
 
 		return person.getId();
@@ -43,17 +44,16 @@ public class PersonApplicationService {
 	public void handle(DeletePersonCommand command) throws Exception {
 
 		var person = repository.findById(command.getId());
-		
+
 		if (person.isPresent()) {
-			
+
 			repository.delete(person.get());
-		
+
 		} else {
-			
+
 			throw new Exception("Person not found");
-			
+
 		}
-		
 
 	}
 
@@ -103,6 +103,23 @@ public class PersonApplicationService {
 		                                  .streetName(person.getStreetName())
 		                                  .build())
 		             .collect(Collectors.toList());
+
+	}
+
+	public void handle(UpdatePersonCommand command) throws Exception {
+
+		var person = repository.findById(command.getId());
+		
+		if (!person.isPresent()) {
+			
+			throw new Exception("Person not found!");
+			
+		} else {
+
+			person.get().updatePerson(command.getCity(), command.getStreetName());
+
+			repository.saveAndFlush(person.get());
+		}
 
 	}
 
